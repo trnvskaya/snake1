@@ -46,7 +46,7 @@ test-homework01-private:
 validate-homework01:
   stage: validate
   variables:
-    ASSIGNMENT_DEADLINE: "2023-11-05T23:59:59"
+    ASSIGNMENT_DEADLINE: "2024-03-31T23:59:59"
   tags:
     - bi-pyt-assignment-validate
   script:
@@ -89,7 +89,7 @@ test-homework02-private:
 validate-homework02:
   stage: validate
   variables:
-    ASSIGNMENT_DEADLINE: "2023-11-19T23:59:59"
+    ASSIGNMENT_DEADLINE: "2024-04-14T23:59:59"
   tags:
     - bi-pyt-assignment-validate
   script:
@@ -131,7 +131,7 @@ test-homework03-private:
 validate-homework03:
   stage: validate
   variables:
-    ASSIGNMENT_DEADLINE: "2023-12-03T23:59:59"
+    ASSIGNMENT_DEADLINE: "2024-04-28T23:59:59"
   tags:
     - bi-pyt-assignment-validate
   script:
@@ -174,7 +174,7 @@ test-homework04-private:
 validate-homework04:
   stage: validate
   variables:
-    ASSIGNMENT_DEADLINE: "2023-12-17T23:59:59"
+    ASSIGNMENT_DEADLINE: "2024-05-12T23:59:59"
   tags:
     - bi-pyt-assignment-validate
   script:
