@@ -120,8 +120,100 @@ Odkazy:
 https://en.wikipedia.org/wiki/Box_Drawing
 """
 
+def validate_tree(tree):
+    """
+    function for validaing trees
+    """
+    if not isinstance(tree, list) or len(tree) != 2:
+        raise ValueError('Invalid tree')
+    new_list = False
+    element = False
 
-# zachovejte interface metody
+    # Check if any of two parts is a tree
+    if isinstance(tree[0], list):
+        new_list = tree[0]
+        element = tree[1]
+    if isinstance(tree[1], list):
+        new_list = tree[1]
+        element = tree[0]
+
+    if new_list is False:
+        raise ValueError('Invalid tree')
+    return new_list, element
+
+def printTree(tree, separator, indent, stage, parent) -> str:
+    """
+    function to print a tree
+    """
+    new_list, element = validate_tree(tree)
+    result = ''
+    if stage >= 1:
+        last = parent[stage - 1]  # Is a last child
+    else:
+        last = False
+
+    tmp = ''
+    for a in range(stage - 1):
+        symbol = separator if stage < 2 or parent[a] else "│"
+        # if stage < 2 or parent[a]:  # Is a parent
+        #     symbol = separator
+        # else:  # Is a child
+        #     symbol = "│"
+        tmp += symbol + separator * (indent - 1)
+    #print(tmp)
+
+    if stage != 0:
+        tmp += "└" if last else "├"
+        # if last:
+        #     tmp += "└"
+        # else:
+        #     tmp += "├"
+        tmp += (indent - 2) * "─"
+        tmp += ">"
+    else:
+        tmp += ""
+    #print(tmp)
+
+    suffix = "" if "\n" in tmp else "\n"
+
+    # Append the element and suffix to tmp
+    tmp += str(element) + suffix
+    result += tmp
+    #print('res do ifov: ' + result)
+
+    if len(new_list) == 2 and (isinstance(new_list[0], list) != isinstance(new_list[1], list)):
+        newParent = parent.copy()
+        newParent.append(True)
+        #print('pervyi if do rekursiji: \n' + result)
+        result += printTree(new_list, separator, indent, stage + 1, newParent)
+        #print('pervyi if:\n' + result)
+    else:
+        for coef, child in enumerate(new_list):
+            if isinstance(child, list):
+                # Child is a list again
+                newParent = parent.copy()
+                newParent.append(coef == len(new_list) - 1)
+                #print('vtoroi if do rekursiji: \n' + result)
+                result += printTree(child, separator, indent, stage + 1, newParent)
+                #print('vtoroi if:\n' + result)
+                continue
+            tmp = ''
+            for a in range(stage):
+                symbol = "│" if separator != " " and not parent[a] else separator
+                if (separator == " " and not parent[a]):
+                    symbol = "│"
+                tmp += ((symbol + (separator * (indent - 1))))
+            tmp += "└" if (coef == len(new_list) - 1) else "├"
+            tmp += ((indent - 2) * "─") + ">"
+            tmp += str(child) + ("" if '\n' in tmp else '\n')
+            result += tmp
+
+    return result
+
 def render_tree(tree: list = None, indent: int = 2, separator: str = ' ') -> str:
-
-    return ''
+    """
+    function that renders a tree
+    """
+    result = ''
+    result += printTree(tree, separator, indent, 0, [])
+    return result
