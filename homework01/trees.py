@@ -147,23 +147,15 @@ def printTree(tree, separator, indent, stage, parent) -> str:
     """
     new_list, element = validate_tree(tree)
     result = ''
-    if stage >= 1:
-        last = parent[stage - 1]  # Is a last child
-    else:
-        last = False
 
     tmp = ''
     for a in range(stage - 1):
         symbol = separator if stage < 2 or parent[a] else "│"
-        # if stage < 2 or parent[a]:  # Is a parent
-        #     symbol = separator
-        # else:  # Is a child
-        #     symbol = "│"
         tmp += symbol + separator * (indent - 1)
     #print(tmp)
 
     if stage != 0:
-        tmp += "└" if last else "├"
+        tmp += "└" if stage >= 1 and parent[stage - 1] else "├"
         # if last:
         #     tmp += "└"
         # else:
