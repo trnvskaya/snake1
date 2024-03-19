@@ -3,7 +3,7 @@
 == How to start
 . Create and add SSH keys to your gitlab profile ( link:https://colab.research.google.com/drive/1VdQusn_rgabFx4uy1jsqzRexaVl5nZiO#scrollTo=S5gLPsNGrUNI[See tutorial #1]).
 . Prepare a directory for BI-PYT, eg. `mkdir bi-pyt` and jump in `cd bi-pyt`.
-. Clone this repository: `git clone git@gitlab.fit.cvut.cz:BI-PYT/B231/{your-login}.git`
+. Clone this repository: `git clone git@gitlab.fit.cvut.cz:BI-PYT/B232/{your-login}.git`
 . Create a virtual environment: `python3.11 -m venv venv-bipyt`
 . Activate the venv: `source venv-bi-pyt/bin/activate`
 . Jump in your materials: `cd {your-login}`
