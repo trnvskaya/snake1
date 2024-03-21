@@ -6,7 +6,11 @@
 
 # image je, zda se, nedostupny, byval tam python 3.8
 #image: python-custom:latest
-image: python:3.11-slim
+#image: python:3.11-slim
+image:
+  name: $CI_REGISTRY/bi-pyt/python-custom:master
+  entrypoint: [ '/bin/bash', '-c', 'ln -snf /bin/bash /bin/sh && /bin/bash -c $0' ]
+
 
 variables:
   CONFIG_VERSION: 1
