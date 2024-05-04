@@ -261,14 +261,13 @@ def determine_survival(df: pd.DataFrame, n_interval: int, age: float,
     # Implement your own solution
     # pass
     df = substitute_missing_values(df)
-    # max_age = df['Age'].max()
+    age_intervals = pd.cut(df["Age"], bins=n_interval)
+    df["AgeInterval"] = age_intervals
+    grouped_survival = df.groupby(["AgeInterval", "Sex"])["Survived"].mean()
+    age_interval = None
+    for interval in age_intervals.unique():
+        if interval.left <= age <= interval.right:
+            age_interval = interval
 
-    df['AgeInterval'] = pd.cut(df['Age'], bins=n_interval)
-
-    grouped_data = df.groupby(['AgeInterval', 'Sex'])['Survived'].mean()
-
-    age_int = pd.cut([age], bins=n_interval).values[0]
-
-    survival_chances = grouped_data.loc[(age_int, sex)]
-
-    return survival_chances if survival_chances is not None else np.nan
+    survival_probability = grouped_survival.get((age_interval, sex), np.nan)
+    return survival_probability
