@@ -192,7 +192,7 @@ def get_outliers(df: pd.DataFrame) -> (int, pd.DataFrame):
     lower = Q1 - 1.5*IQR
     upper = Q3 + 1.5*IQR
 
-    outliers = df[(df['Fare'] < lower) or (df['Fare'] > upper)]
+    outliers = df[(df['Fare'] < lower) | (df['Fare'] > upper)]
     numOfOutliers = outliers.shape[0]
 
     return numOfOutliers, outliers
@@ -260,3 +260,15 @@ def determine_survival(df: pd.DataFrame, n_interval: int, age: float,
 
     # Implement your own solution
     # pass
+    df = substitute_missing_values(df)
+    # max_age = df['Age'].max()
+
+    df['AgeInterval'] = pd.cut(df['Age'], bins=n_interval)
+
+    grouped_data = df.groupby(['AgeInterval', 'Sex'])['Survived'].mean()
+
+    age_int = pd.cut([age], bins=n_interval).values[0]
+
+    survival_chances = grouped_data.loc[(age_int, sex)]
+
+    return survival_chances if survival_chances is not None else np.nan
