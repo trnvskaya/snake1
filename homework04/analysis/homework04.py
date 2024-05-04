@@ -50,8 +50,8 @@ def load_dataset(train_file_path: str, test_file_path: str) -> pd.DataFrame:
     data['Label'] = 'Train'
     test['Label'] = 'Test'
 
-    result = pd.concat([data, test])
-    result.drop(columns = ['Ticket', 'Embarked', 'Cabin'])
+    result = pd.concat([data, test], ignore_index=True)
+    result.drop(columns = ['Ticket', 'Embarked', 'Cabin'], inplace = True)
     result.reset_index(drop = True, inplace = True)
 
     return result
