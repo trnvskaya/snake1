@@ -1,7 +1,7 @@
 """
-In this homework, we will use well-known Titanic dataset which contains 
-information about passengers of Titanic. The dataset consists of personal 
-information about each passenger and indicator whether the passenger 
+In this homework, we will use well-known Titanic dataset which contains
+information about passengers of Titanic. The dataset consists of personal
+information about each passenger and indicator whether the passenger
 survived. We will use this data to analyse passenger list and their chance for
 survival.
 
@@ -21,7 +21,7 @@ The provided dataset contains the following attributes:
 """
 
 import pandas as pd
-import numpy
+import numpy as np
 
 
 def load_dataset(train_file_path: str, test_file_path: str) -> pd.DataFrame:
@@ -32,7 +32,7 @@ def load_dataset(train_file_path: str, test_file_path: str) -> pd.DataFrame:
     `train_file_path`, and 'data/test.csv'  as `test_file_path`). Add column
     name "Label" to each DataFrame. The column should contain value "Train"
     for data from `train_file_path` and "Test" from test_file_path.
-    
+
     Perform following operations with DataFrames (keep the order of the
     operations):
         1. Concatenate both DataFrames.
@@ -43,7 +43,19 @@ def load_dataset(train_file_path: str, test_file_path: str) -> pd.DataFrame:
     """
 
     # Implement your own solution
-    pass
+    # pass
+    data = pd.read_csv(train_file_path)
+    test = pd.read_csv(test_file_path)
+
+    data['Label'] = 'Train'
+    test['Label'] = 'Test'
+
+    result = pd.concat([data, test])
+    result.drop(columns = ['Ticket', 'Embarked', 'Cabin'])
+    result.reset_index(drop = True, inplace = True)
+
+    return result
+
 
 
 def get_missing_values(df: pd.DataFrame) -> pd.DataFrame:
@@ -63,7 +75,7 @@ def get_missing_values(df: pd.DataFrame) -> pd.DataFrame:
 
     Sort the resulting DataFrame based on the number of missing values from
     largest to smallest.
-    
+
     Example of output:
 
                |  Total  |  Percent
@@ -72,7 +84,14 @@ def get_missing_values(df: pd.DataFrame) -> pd.DataFrame:
     """
 
     # Implement your own solution
-    pass
+    # pass
+    result_missing = df.isnull().sum()
+    n = len(df)
+    percentage = result_missing / n * 100
+    result_missing_df = pd.DataFrame({'Total': result_missing, 'Percent': percentage})
+    result_missing_df = result_missing_df.sort_values(by='Total', ascending=False)
+
+    return result_missing_df
 
 
 def substitute_missing_values(df: pd.DataFrame) -> pd.DataFrame:
@@ -88,7 +107,12 @@ def substitute_missing_values(df: pd.DataFrame) -> pd.DataFrame:
     """
 
     # Implement your own solution
-    pass
+    # pass
+    data_copy = df.copy()
+    data_copy['Age'].fillna(data_copy['Age'].mean(), inplace=True)
+    data_copy['Fare'].fillna(15, inplace=True)
+
+    return data_copy
 
 
 def get_correlation(df: pd.DataFrame) -> float:
@@ -106,7 +130,9 @@ def get_correlation(df: pd.DataFrame) -> float:
     """
 
     # Implement your own solution
-    pass
+    # pass
+    koef = df['Age'].corr(df['Fare'])
+    return koef
 
 
 def get_survived_per_class(df: pd.DataFrame,
@@ -119,7 +145,7 @@ def get_survived_per_class(df: pd.DataFrame,
     To increase readability of the result sort values from the highest chance of
     survival to lowest and round the resulting values to 2 decimal places.
     Return result as pandas Series.
-    
+
     Example:
 
     get_survived_per_class(df, "Sex")
@@ -131,7 +157,11 @@ def get_survived_per_class(df: pd.DataFrame,
     """
 
     # Implement your own solution
-    pass
+    # pass
+    rateOfSurvived = df.groupby(group_by_column_name)['Survived'].mean().round(2)
+    rateOfSurvived =rateOfSurvived.sort_values(ascending=False)
+
+    return rateOfSurvived
 
 
 def get_outliers(df: pd.DataFrame) -> (int, pd.DataFrame):
@@ -154,7 +184,19 @@ def get_outliers(df: pd.DataFrame) -> (int, pd.DataFrame):
     """
 
     # Implement your own solution
-    pass
+    # pass
+    Q1 = df['Fare'].quantile(0.25)
+    Q3 = df['Fare'].quantile(0.75)
+    IQR = Q3 - Q1
+
+    lower = Q1 - 1.5*IQR
+    upper = Q3 + 1.5*IQR
+
+    outliers = df[(df['Fare'] < lower) or (df['Fare'] > upper)]
+    numOfOutliers = outliers.shape[0]
+
+    return numOfOutliers, outliers
+
 
 
 def create_new_features(df: pd.DataFrame) -> pd.DataFrame:
@@ -179,7 +221,14 @@ def create_new_features(df: pd.DataFrame) -> pd.DataFrame:
     """
 
     # Implement your own solution
-    pass
+    # pass
+    copyOfDataFrame = df.copy()
+    copyOfDataFrame['Fare_scaled'] = (copyOfDataFrame['Fare'] - copyOfDataFrame['Fare'].mean()) / copyOfDataFrame['Fare'].std()
+    copyOfDataFrame['Age_log'] = copyOfDataFrame['Age'].apply(lambda x: np.log(x) if x > 0 else 0)
+    copyOfDataFrame['Sex'] = copyOfDataFrame['Sex'].map({'female': 1, 'male': 0})
+
+    return copyOfDataFrame
+
 
 
 def determine_survival(df: pd.DataFrame, n_interval: int, age: float,
@@ -210,4 +259,4 @@ def determine_survival(df: pd.DataFrame, n_interval: int, age: float,
     """
 
     # Implement your own solution
-    pass
+    # pass
