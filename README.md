@@ -30,21 +30,21 @@ Then simply run the code in the `main.py` file from the project directory
 
 The controls are very simple:
 
-Left and Right Arrows: Move the snake left and right.
-Up Arrow: Move the snake up.
-Down Arrow: Move the snake down.
-On the start screen player may choose to start the game ('S' key), quit the game ('Q' key) or go to settings ('C' key).
-Press the label 'Level' on the start screen to choose difficulty level.
+- Left and Right Arrows: Move the snake left and right.
+- Up Arrow: Move the snake up.
+- Down Arrow: Move the snake down.
+- On the start screen player may choose to start the game ('S' key), quit the game ('Q' key) or go to settings ('C' key).
+- Press the label 'Level' on the start screen to choose difficulty level.
 
 ## Implementation details
 
 The game is implemented using the Pygame library. The main components include:
 
-Snake: Class for defining the snake.
-Food: Class for defining the food.
-Obstacle: Class for defining the obstacles.
-High Score Management: High scores are saved in the high_scores.txt file in the project's root directory.
-Obstacles are not generated within a 3-block radius of the snake's initial spawn position to ensure the player has enough space to start the game.
+- Snake: Class for defining the snake.
+- Food: Class for defining the food.
+- Obstacle: Class for defining the obstacles.
+- High Score Management: High scores are saved in the high_scores.txt file in the project's root directory.
+- Obstacles are not generated within a 3-block radius of the snake's initial spawn position to ensure the player has enough space to start the game.
 
 ## Tests
 
