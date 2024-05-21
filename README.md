@@ -47,5 +47,5 @@ Obstacles are not generated within a 3-block radius of the snake's initial spawn
 ## Tests
 
 (How this works in terminal for me)
-python -m unittest tests.py
+`python -m unittest tests.py`
 
