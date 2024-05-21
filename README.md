@@ -10,7 +10,7 @@ This project is a classic Snake game implemented in Python using the Pygame libr
 - Bonus food for gaining higher score.
 - Two levels of difficulty you may choose on the start screen.
 - High score tracking.
-- Adjustable game settings.
+- Adjustable game settings to see top best scores and choose game background.
 
 ## Dependencies
 
@@ -32,7 +32,9 @@ The controls are very simple:
 
 Left and Right Arrows: Move the snake left and right.
 Up Arrow: Move the snake up.
-Down Arrow: Move the snake down
+Down Arrow: Move the snake down.
+On the start screen player may choose to start the game ('S' key), quit the game ('Q' key) or go to settings ('C' key).
+Press the label 'Level' on the start screen to choose difficulty level.
 
 ## Implementation details
 
