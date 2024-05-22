@@ -32,7 +32,7 @@ class Game:
         for obstacle in self.obstacles:
             obstacle.randomize()
         self.food.randomize(self.snake.body, self.obstacles)
-        self.play_with_obstacles = False
+        self.play_with_obstacles = True
         self.score_font = pygame.font.Font(None, 42)
         self.high_scores = load_high_scores()
         self.game_over_sound = pygame.mixer.Sound("screamer.mp3")
