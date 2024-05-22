@@ -45,6 +45,7 @@ class Game:
         pygame.time.set_timer(self.timer_event, 150)
         self.last_eaten_time = pygame.time.get_ticks()
         self.time_limit_without_food = 10000
+        self.game_start_time = 0
         self.load_music_tracks()
         self.current_track_index = 0
         pygame.mixer.music.load(self.tracks[self.current_track_index])
@@ -86,6 +87,7 @@ class Game:
     def run(self):
         """Start the game"""
         self.show_start_screen()
+        self.game_start_time = pygame.time.get_ticks()
         while not self.game_over:
             if self.play_with_obstacles:
                 if not hasattr(self, 'obstacles') or not self.obstacles:
@@ -125,7 +127,7 @@ class Game:
         self.check_fail()
         self.adjust_timer()
         if not self.game_over:
-            current_time = pygame.time.get_ticks()
+            current_time = pygame.time.get_ticks() - self.game_start_time
             time_since_last_food = current_time - self.last_eaten_time
             if self.play_with_obstacles and time_since_last_food > self.time_limit_without_food:
                 self.game_over = True
@@ -174,6 +176,7 @@ class Game:
             self.food = Food()
             self.food.randomize(self.snake.body, self.obstacles)
             self.eat_sound = pygame.mixer.Sound("crunch.wav")
+        self.last_eaten_time = pygame.time.get_ticks() - self.game_start_time
 
     def change_background(self, index):
         """Change background if needed"""
@@ -208,7 +211,7 @@ class Game:
             self.snake.add_block()
             self.score += self.food.get_points()
             self.spawn_food()
-            self.last_eaten_time = pygame.time.get_ticks()
+            self.last_eaten_time = pygame.time.get_ticks() - self.game_start_time
             self.update_music_track()
 
     def check_fail(self):
@@ -316,7 +319,8 @@ class Game:
         self.snake = Snake()
         self.food = Food()
         self.spawn_food()
-        self.last_eaten_time = pygame.time.get_ticks()
+        self.game_start_time = 0
+        self.last_eaten_time = self.game_start_time
         self.score = 0
         self.game_over = False
         self.current_track_index = 0
