@@ -40,6 +40,7 @@ class Game:
         self.poof_sound = pygame.mixer.Sound("poof.mp3")
         self.game_over = False
         self.score = 0
+        self.direction_changed = False
         self.timer_event = pygame.USEREVENT + 1
         pygame.time.set_timer(self.timer_event, 150)
         self.last_eaten_time = pygame.time.get_ticks()
@@ -116,7 +117,10 @@ class Game:
 
     def update(self):
         """Update game stats"""
+        if self.snake.next_direction:
+            self.snake.direction = self.snake.next_direction
         self.snake.move_snake()
+        self.direction_changed = False
         self.check_collision()
         self.check_fail()
         self.adjust_timer()
@@ -222,14 +226,19 @@ class Game:
     def handle_keys(self, key):
         """Handle keys"""
         direction = self.snake.direction
-        if key == K_UP and direction.y != 1:
-            self.snake.direction = Vector2(0, -1)
-        elif key == K_DOWN and direction.y != -1:
-            self.snake.direction = Vector2(0, 1)
-        elif key == K_LEFT and direction.x != 1:
-            self.snake.direction = Vector2(-1, 0)
-        elif key == K_RIGHT and direction.x != -1:
-            self.snake.direction = Vector2(1, 0)
+        if not self.direction_changed:
+            if key == K_UP and direction.y != 1:
+                self.snake.next_direction = Vector2(0, -1)
+                self.direction_changed = True
+            elif key == K_DOWN and direction.y != -1:
+                self.snake.next_direction = Vector2(0, 1)
+                self.direction_changed = True
+            elif key == K_LEFT and direction.x != 1:
+                self.snake.next_direction = Vector2(-1, 0)
+                self.direction_changed = True
+            elif key == K_RIGHT and direction.x != -1:
+                self.snake.next_direction = Vector2(1, 0)
+                self.direction_changed = True
 
     def update_score(self, new_score):
         """Update user's score and save high scores to file"""

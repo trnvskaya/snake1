@@ -10,6 +10,7 @@ class Snake:
         """Initialize the snake"""
         self.body = [Vector2(7, 10), Vector2(6, 10), Vector2(5, 10)]
         self.direction = Vector2(1, 0)
+        self.next_direction = self.direction
         self.new_block = False
         self.color = (0, 0, 255)
 
