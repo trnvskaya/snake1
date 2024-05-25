@@ -326,6 +326,7 @@ class Game:
         self.current_track_index = 0
         pygame.mixer.music.load(self.tracks[self.current_track_index])
         pygame.mixer.music.play(-1)
+        self.obstacles = []
         self.run()
 
     def show_settings_screen(self):
