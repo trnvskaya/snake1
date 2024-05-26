@@ -86,8 +86,10 @@ class Game:
 
     def run(self):
         """Start the game"""
-        self.show_start_screen()
+        if not self.show_start_screen():
+            return
         self.game_start_time = pygame.time.get_ticks()
+
         while not self.game_over:
             if self.play_with_obstacles:
                 if not hasattr(self, 'obstacles') or not self.obstacles:
@@ -358,8 +360,9 @@ class Game:
                     pygame.quit()
                     return
                 if event.type == KEYDOWN:
-                    self.use_default_background = True if event.key == K_0 else None
-                    if event.key == K_1:
+                    if event.key == K_0:
+                        self.use_default_background = True
+                    elif event.key == K_1:
                         self.change_background(0)
                         self.use_default_background = False
                     elif event.key == K_2:
