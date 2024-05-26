@@ -59,13 +59,13 @@ class TestSnakeGame(unittest.TestCase):
 
     def test_food_randomize(self):
         """Ensure food does not spawn on the snake"""
-        self.game.snake.body = [Vector2(x, 0) for x in range(10)]
+        self.game.snake.body = [Vector2(x, 10) for x in range(10)]
         self.game.food.randomize(self.game.snake.body, [])
         self.assertNotIn(self.game.food.pos, self.game.snake.body)
 
     def test_food_randomize_with_obstacles(self):
         """Ensure food does not spawn on obstacles"""
-        self.game.snake.body = [Vector2(0, 0)]
+        self.game.snake.body = [Vector2(x, 10) for x in range(10)]
         obstacles = [Obstacle(self.game) for _ in range(10)]
         for obstacle in obstacles:
             obstacle.positions = [Vector2(random.randint(0, 19), random.randint(0, 19))]
